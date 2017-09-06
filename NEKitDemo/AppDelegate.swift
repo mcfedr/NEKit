@@ -17,7 +17,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         let config = Configuration()
         let filepath = (NSHomeDirectory() as NSString).appendingPathComponent(".NEKit_demo.yaml")
-        // swiftlint:disable force_try
         do {
             try config.load(fromConfigFile: filepath)
         } catch let error {

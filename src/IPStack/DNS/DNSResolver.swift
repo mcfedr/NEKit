@@ -65,6 +65,8 @@ open class UDPDNSResolver: DNSResolverProtocol, NWUDPSocketDelegate {
         }
         if let requestPayload = session.requestMessage.payload {
             socket?.write(data: requestPayload)
+        } else {
+            DDLogError("Missing payload from DNS Message")
         }
     }
 

@@ -77,6 +77,10 @@ open class TCPStack: TSIPStackDelegate, IPStackProtocol {
         DDLogDebug("Accepted a new socket from IP stack.")
         let tunSocket = TUNTCPSocket(socket: sock)
         let proxySocket = DirectProxySocket(socket: tunSocket)
-        self.proxyServer?.didAcceptNewSocket(proxySocket)
+        if let proxyServer = proxyServer {
+            proxyServer.didAcceptNewSocket(proxySocket)
+        } else {
+            DDLogError("Missing proxy server in TCPStack")
+        }
     }
 }

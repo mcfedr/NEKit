@@ -293,10 +293,8 @@ open class IPPacket {
         protocolParser.packetData = packetData
         protocolParser.offset = Int(headerLength)
         protocolParser.buildSegment(computePseudoHeaderChecksum())
-        
-        if let protocolPacketData = protocolParser.packetData {
-            packetData = protocolPacketData
-        }
+
+        packetData = protocolParser.packetData
 
         setPayloadWithUInt16(Checksum.computeChecksum(packetData, from: 0, to: Int(headerLength)), at: 10, swap: false)
     }

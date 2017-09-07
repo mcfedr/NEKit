@@ -1,4 +1,5 @@
 import Foundation
+import CocoaLumberjackSwift
 
 struct ConnectInfo: Hashable {
     let sourceAddress: IPAddress
@@ -144,7 +145,11 @@ public class UDPDirectStack: IPStackProtocol, NWUDPSocketDelegate {
         
         packet.buildPacket()
 
-        outputFunc?([packet.packetData], [NSNumber(value: AF_INET as Int32)])
+        if let outputFunc = outputFunc {
+            outputFunc([packet.packetData], [NSNumber(value: AF_INET as Int32)])
+        } else {
+            DDLogError("Missing outputFunc in UDPDirectStack")
+        }
     }
     
     public func didCancel(socket: NWUDPSocket) {

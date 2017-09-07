@@ -200,8 +200,12 @@ open class DNSServer: DNSResolverDelegate, IPStackProtocol {
                     let ipPacket = IPPacket(sourceAddress: serverAddress, destinationAddress: destinationAddress, transportProtocol: .udp, protocolParser: udpParser)
                     
                     ipPacket.buildPacket()
-                    
-                    outputFunc?([ipPacket.packetData], [NSNumber(value: AF_INET as Int32)])
+
+                    if let outputFunc = outputFunc {
+                        outputFunc([ipPacket.packetData], [NSNumber(value: AF_INET as Int32)])
+                    } else {
+                        DDLogError("Mssing outputFunc in DNSServer")
+                    }
                 }
             }
         }

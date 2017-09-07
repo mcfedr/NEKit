@@ -1,4 +1,5 @@
 import Foundation
+import CocoaLumberjackSwift
 
 protocol TunnelDelegate : class {
     func tunnelDidClose(_ tunnel: Tunnel)
@@ -159,8 +160,12 @@ public class Tunnel: NSObject, SocketDelegate {
         let manager = RuleManager.currentManager
         let factory = manager.match(session)
         adapterSocket = factory?.getAdapterFor(session: session)
-        adapterSocket?.delegate = self
-        adapterSocket?.openSocketWith(session: session)
+        if let adapterSocket = adapterSocket {
+            adapterSocket.delegate = self
+            adapterSocket.openSocketWith(session: session)
+        } else {
+            DDLogError("Missing adapterSocket in Tunnel")
+        }
     }
     
     public func didBecomeReadyToForwardWith(socket: SocketProtocol) {
@@ -198,7 +203,11 @@ public class Tunnel: NSObject, SocketDelegate {
             guard !isCancelled else {
                 return
             }
-            adapterSocket?.write(data: data)
+            if let adapterSocket = adapterSocket {
+                adapterSocket.write(data: data)
+            } else {
+                DDLogError("Missing adapterSocket in Tunnel.didRead")
+            }
         } else if let socket = socket as? AdapterSocket {
             observer?.signal(.adapterSocketReadData(data, from: socket, on: self))
             

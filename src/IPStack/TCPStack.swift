@@ -20,7 +20,7 @@ open class TCPStack: TSIPStackDelegate, IPStackProtocol {
     /// This is set automatically when the stack is registered to some interface.
     open var outputFunc: (([Data], [NSNumber]) -> Void)? {
         get {
-            return TSIPStack.stack.outputBlock
+            return TSIPStack.stack.outputBlock!
         }
         set {
             TSIPStack.stack.outputBlock = newValue

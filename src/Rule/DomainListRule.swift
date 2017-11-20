@@ -50,7 +50,7 @@ open class DomainListRule: Rule {
      - returns: The result of match.
      */
     override open func matchDNS(_ session: DNSSession, type: DNSSessionMatchType) -> DNSSessionMatchResult {
-        guard let name = session.requestMessage.queries.first?.name else  {
+        guard let name = session.requestMessage.queries.first?.name else {
             return .pass
         }
         if matchDomain(name) {

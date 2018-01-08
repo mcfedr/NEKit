@@ -266,7 +266,7 @@ open class IPPacket {
         if let address = sourceAddress, let inNetworkOrder = address.UInt32InNetworkOrder {
             result += inNetworkOrder >> 16 + inNetworkOrder & 0xFFFF
         }
-        if let address = destinationAddress, let inNetworkOrder = address.UInt32InNetworkOrder  {
+        if let address = destinationAddress, let inNetworkOrder = address.UInt32InNetworkOrder {
             result += inNetworkOrder >> 16 + inNetworkOrder & 0xFFFF
         }
         result += UInt32(transportProtocol.rawValue) << 8
